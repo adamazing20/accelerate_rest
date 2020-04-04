@@ -1,8 +1,11 @@
 library room;
 
+import 'dart:convert';
+
+import 'package:accelerate_rest/accelerate_rest.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:uuid/uuid.dart';
+//import 'package:uuid/uuid.dart';
 
 part 'room.g.dart';
 

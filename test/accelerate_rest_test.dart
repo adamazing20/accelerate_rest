@@ -27,8 +27,14 @@ void main() {
 
       var serialized = serializers.serialize(vote);
       print(jsonEncode(serialized));
-      var vote2 = serializers.deserialize(serialized);
+      var vote2 = serializers.deserializeWith(Vote.serializer
+          ,serialized);
       print(vote2);
+
+      Room room = vote2.room;
+
+      print(room.name);
+
 //      expect(awesome.isAwesome, isTrue);
     });
   });
