@@ -8,3 +8,4 @@ export 'src/models/room.dart';
 export 'src/models/vote.dart';
 export 'src/models/voter.dart';
 export 'src/models/serializers.dart';
+export 'src/models/votes.dart';

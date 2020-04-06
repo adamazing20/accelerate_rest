@@ -7,6 +7,7 @@ abstract class Voter implements Built<Voter, VoterBuilder> {
   static Serializer<Voter> get serializer => _$voterSerializer;
   @nullable
   String get name;
+  String get uuid;
 
   Voter._();
   factory Voter([void Function(VoterBuilder) updates]) = _$Voter;
