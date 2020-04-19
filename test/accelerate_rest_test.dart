@@ -2,38 +2,39 @@ import 'dart:convert';
 
 import 'package:accelerate_rest/accelerate_rest.dart';
 import 'package:accelerate_rest/src/models/room.dart';
-import 'package:accelerate_rest/src/models/serializers.dart';
-import 'package:accelerate_rest/src/models/vote.dart';
 import 'package:accelerate_rest/src/models/voter.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:test/test.dart';
-import 'package:uuid/uuid.dart';
 
 void main() {
-  group('A group of tests', () {
-    Awesome awesome;
-
+  group('A group of tests', ()  {
 //    setUp(() {
 //      awesome = Awesome();
 //    });
 
     test('First Test', () {
-      var vote = Vote((b) => b
-        ..room = Room((b) => b
-          ..name = 'roomName'
-          ..uuid = Uuid().toString()).toBuilder()
-        ..probability = '2'
-        ..impact = '3'
-        ..voter = Voter((b) => b..name = 'voterName').toBuilder());
+      var voter = Voter((v) =>
+      v
+        ..name = "woof"
+        ..uuid = "woofid");
 
-      var serialized = serializers.serialize(vote);
-      print(jsonEncode(serialized));
-      var vote2 = serializers.deserializeWith(Vote.serializer
-          ,serialized);
-      print(vote2);
+      List<Voter> voterList = [voter];
+      var room = Room((r) =>
+      r
+        ..name = "default"
+        ..round = Round.impact
+        ..voterList = new BuiltList<Voter>(voterList).toBuilder());
 
-      Room room = vote2.room;
+      var jsonString = room.toJson();
+      print(jsonEncode(jsonString));
 
-      print(room.name);
+      var roomBackFromJson = Room.fromJson(jsonString);
+
+      print(roomBackFromJson);
+
+//      Room room = vote2.room;
+//
+//      print(room.name);
 
 //      expect(awesome.isAwesome, isTrue);
     });
