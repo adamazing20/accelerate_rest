@@ -2,7 +2,6 @@ library vote;
 
 import 'dart:convert';
 
-import 'package:accelerate_rest/src/models/room.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -12,8 +11,9 @@ part 'vote.g.dart';
 
 abstract class Vote implements Built<Vote, VoteBuilder> {
   static Serializer<Vote> get serializer => _$voteSerializer;
-  Room get room;
+  @nullable
   String get impact;
+  @nullable
   String get probability;
 
   Vote._();

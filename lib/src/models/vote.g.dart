@@ -17,19 +17,19 @@ class _$VoteSerializer implements StructuredSerializer<Vote> {
   @override
   Iterable<Object> serialize(Serializers serializers, Vote object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'room',
-      serializers.serialize(object.room, specifiedType: const FullType(Room)),
-      'impact',
-      serializers.serialize(object.impact,
-          specifiedType: const FullType(String)),
-      'probability',
-      serializers.serialize(object.probability,
-          specifiedType: const FullType(String)),
-      'voter',
-      serializers.serialize(object.voter, specifiedType: const FullType(Voter)),
-    ];
-
+    final result = <Object>[];
+    if (object.impact != null) {
+      result
+        ..add('impact')
+        ..add(serializers.serialize(object.impact,
+            specifiedType: const FullType(String)));
+    }
+    if (object.probability != null) {
+      result
+        ..add('probability')
+        ..add(serializers.serialize(object.probability,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -44,10 +44,6 @@ class _$VoteSerializer implements StructuredSerializer<Vote> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'room':
-          result.room.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Room)) as Room);
-          break;
         case 'impact':
           result.impact = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -55,10 +51,6 @@ class _$VoteSerializer implements StructuredSerializer<Vote> {
         case 'probability':
           result.probability = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
-          break;
-        case 'voter':
-          result.voter.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Voter)) as Voter);
           break;
       }
     }
@@ -69,31 +61,14 @@ class _$VoteSerializer implements StructuredSerializer<Vote> {
 
 class _$Vote extends Vote {
   @override
-  final Room room;
-  @override
   final String impact;
   @override
   final String probability;
-  @override
-  final Voter voter;
 
   factory _$Vote([void Function(VoteBuilder) updates]) =>
       (new VoteBuilder()..update(updates)).build();
 
-  _$Vote._({this.room, this.impact, this.probability, this.voter}) : super._() {
-    if (room == null) {
-      throw new BuiltValueNullFieldError('Vote', 'room');
-    }
-    if (impact == null) {
-      throw new BuiltValueNullFieldError('Vote', 'impact');
-    }
-    if (probability == null) {
-      throw new BuiltValueNullFieldError('Vote', 'probability');
-    }
-    if (voter == null) {
-      throw new BuiltValueNullFieldError('Vote', 'voter');
-    }
-  }
+  _$Vote._({this.impact, this.probability}) : super._();
 
   @override
   Vote rebuild(void Function(VoteBuilder) updates) =>
@@ -106,36 +81,26 @@ class _$Vote extends Vote {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is Vote &&
-        room == other.room &&
         impact == other.impact &&
-        probability == other.probability &&
-        voter == other.voter;
+        probability == other.probability;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc($jc($jc(0, room.hashCode), impact.hashCode), probability.hashCode),
-        voter.hashCode));
+    return $jf($jc($jc(0, impact.hashCode), probability.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Vote')
-          ..add('room', room)
           ..add('impact', impact)
-          ..add('probability', probability)
-          ..add('voter', voter))
+          ..add('probability', probability))
         .toString();
   }
 }
 
 class VoteBuilder implements Builder<Vote, VoteBuilder> {
   _$Vote _$v;
-
-  RoomBuilder _room;
-  RoomBuilder get room => _$this._room ??= new RoomBuilder();
-  set room(RoomBuilder room) => _$this._room = room;
 
   String _impact;
   String get impact => _$this._impact;
@@ -145,18 +110,12 @@ class VoteBuilder implements Builder<Vote, VoteBuilder> {
   String get probability => _$this._probability;
   set probability(String probability) => _$this._probability = probability;
 
-  VoterBuilder _voter;
-  VoterBuilder get voter => _$this._voter ??= new VoterBuilder();
-  set voter(VoterBuilder voter) => _$this._voter = voter;
-
   VoteBuilder();
 
   VoteBuilder get _$this {
     if (_$v != null) {
-      _room = _$v.room?.toBuilder();
       _impact = _$v.impact;
       _probability = _$v.probability;
-      _voter = _$v.voter?.toBuilder();
       _$v = null;
     }
     return this;
@@ -177,28 +136,8 @@ class VoteBuilder implements Builder<Vote, VoteBuilder> {
 
   @override
   _$Vote build() {
-    _$Vote _$result;
-    try {
-      _$result = _$v ??
-          new _$Vote._(
-              room: room.build(),
-              impact: impact,
-              probability: probability,
-              voter: voter.build());
-    } catch (_) {
-      String _$failedField;
-      try {
-        _$failedField = 'room';
-        room.build();
-
-        _$failedField = 'voter';
-        voter.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            'Vote', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+    final _$result =
+        _$v ?? new _$Vote._(impact: impact, probability: probability);
     replace(_$result);
     return _$result;
   }

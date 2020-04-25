@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:accelerate_rest/src/models/round.dart';
 import 'package:accelerate_rest/src/models/serializers.dart';
-import 'package:accelerate_rest/src/models/vote.dart';
 import 'package:accelerate_rest/src/models/voter.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';

@@ -13,17 +13,16 @@ void main() {
 //    });
 
     test('First Test', () {
-      var voter = Voter((v) =>
-      v
-        ..name = "woof"
-        ..uuid = "woofid");
-
-      List<Voter> voterList = [voter];
-      var room = Room((r) =>
-      r
+      var room = Room((room) => room
         ..name = "default"
-        ..round = Round.impact
-        ..voterList = new BuiltList<Voter>(voterList).toBuilder());
+        ..round = Round((round) => round
+          ..roundType = RoundType.Probability
+          ..roundSubType = RoundSubType.Discussion).toBuilder()
+        ..voterList = ListBuilder([
+          Voter((voter) => voter
+            ..name = "woo"
+            ..uuid = "none"..vote=Vote((vote)=> vote..probability="4").toBuilder())
+        ]));
 
       var jsonString = room.toJson();
       print(jsonEncode(jsonString));
