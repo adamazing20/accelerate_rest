@@ -3,6 +3,7 @@ library serializers;
 import 'package:accelerate_rest/src/models/event.dart';
 import 'package:accelerate_rest/src/models/event_type.dart';
 import 'package:accelerate_rest/src/models/room.dart';
+import 'package:accelerate_rest/src/models/rooms.dart';
 import 'package:accelerate_rest/src/models/round.dart';
 import 'package:accelerate_rest/src/models/roundsubtype.dart';
 import 'package:accelerate_rest/src/models/roundtype.dart';
@@ -24,6 +25,7 @@ part 'serializers.g.dart';
   EventType,
   Event,
   Round,
+  Rooms,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

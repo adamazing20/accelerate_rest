@@ -13,3 +13,4 @@ export 'src/models/event_type.dart';
 export 'src/models/event.dart';
 export 'src/models/round.dart';
 export 'src/models/roundsubtype.dart';
+export 'src/models/rooms.dart';
