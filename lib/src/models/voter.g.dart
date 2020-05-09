@@ -27,6 +27,12 @@ class _$VoterSerializer implements StructuredSerializer<Voter> {
         ..add(serializers.serialize(object.name,
             specifiedType: const FullType(String)));
     }
+    if (object.vote != null) {
+      result
+        ..add('vote')
+        ..add(serializers.serialize(object.vote,
+            specifiedType: const FullType(Vote)));
+    }
     return result;
   }
 
@@ -49,6 +55,10 @@ class _$VoterSerializer implements StructuredSerializer<Voter> {
           result.uuid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'vote':
+          result.vote.replace(serializers.deserialize(value,
+              specifiedType: const FullType(Vote)) as Vote);
+          break;
       }
     }
 
@@ -61,11 +71,13 @@ class _$Voter extends Voter {
   final String name;
   @override
   final String uuid;
+  @override
+  final Vote vote;
 
   factory _$Voter([void Function(VoterBuilder) updates]) =>
       (new VoterBuilder()..update(updates)).build();
 
-  _$Voter._({this.name, this.uuid}) : super._() {
+  _$Voter._({this.name, this.uuid, this.vote}) : super._() {
     if (uuid == null) {
       throw new BuiltValueNullFieldError('Voter', 'uuid');
     }
@@ -81,19 +93,23 @@ class _$Voter extends Voter {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Voter && name == other.name && uuid == other.uuid;
+    return other is Voter &&
+        name == other.name &&
+        uuid == other.uuid &&
+        vote == other.vote;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, name.hashCode), uuid.hashCode));
+    return $jf($jc($jc($jc(0, name.hashCode), uuid.hashCode), vote.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Voter')
           ..add('name', name)
-          ..add('uuid', uuid))
+          ..add('uuid', uuid)
+          ..add('vote', vote))
         .toString();
   }
 }
@@ -109,12 +125,17 @@ class VoterBuilder implements Builder<Voter, VoterBuilder> {
   String get uuid => _$this._uuid;
   set uuid(String uuid) => _$this._uuid = uuid;
 
+  VoteBuilder _vote;
+  VoteBuilder get vote => _$this._vote ??= new VoteBuilder();
+  set vote(VoteBuilder vote) => _$this._vote = vote;
+
   VoterBuilder();
 
   VoterBuilder get _$this {
     if (_$v != null) {
       _name = _$v.name;
       _uuid = _$v.uuid;
+      _vote = _$v.vote?.toBuilder();
       _$v = null;
     }
     return this;
@@ -135,7 +156,21 @@ class VoterBuilder implements Builder<Voter, VoterBuilder> {
 
   @override
   _$Voter build() {
-    final _$result = _$v ?? new _$Voter._(name: name, uuid: uuid);
+    _$Voter _$result;
+    try {
+      _$result =
+          _$v ?? new _$Voter._(name: name, uuid: uuid, vote: _vote?.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'vote';
+        _vote?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Voter', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

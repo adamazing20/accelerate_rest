@@ -17,18 +17,24 @@ class _$RoomSerializer implements StructuredSerializer<Room> {
   @override
   Iterable<Object> serialize(Serializers serializers, Room object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
-    if (object.name != null) {
-      result
-        ..add('name')
-        ..add(serializers.serialize(object.name,
-            specifiedType: const FullType(String)));
-    }
+    final result = <Object>[
+      'name',
+      serializers.serialize(object.name, specifiedType: const FullType(String)),
+      'round',
+      serializers.serialize(object.round, specifiedType: const FullType(Round)),
+    ];
     if (object.uuid != null) {
       result
         ..add('uuid')
         ..add(serializers.serialize(object.uuid,
             specifiedType: const FullType(String)));
+    }
+    if (object.voterList != null) {
+      result
+        ..add('voterList')
+        ..add(serializers.serialize(object.voterList,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(Voter)])));
     }
     return result;
   }
@@ -52,6 +58,16 @@ class _$RoomSerializer implements StructuredSerializer<Room> {
           result.uuid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'round':
+          result.round.replace(serializers.deserialize(value,
+              specifiedType: const FullType(Round)) as Round);
+          break;
+        case 'voterList':
+          result.voterList.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(Voter)]))
+              as BuiltList<Object>);
+          break;
       }
     }
 
@@ -64,11 +80,22 @@ class _$Room extends Room {
   final String name;
   @override
   final String uuid;
+  @override
+  final Round round;
+  @override
+  final BuiltList<Voter> voterList;
 
   factory _$Room([void Function(RoomBuilder) updates]) =>
       (new RoomBuilder()..update(updates)).build();
 
-  _$Room._({this.name, this.uuid}) : super._();
+  _$Room._({this.name, this.uuid, this.round, this.voterList}) : super._() {
+    if (name == null) {
+      throw new BuiltValueNullFieldError('Room', 'name');
+    }
+    if (round == null) {
+      throw new BuiltValueNullFieldError('Room', 'round');
+    }
+  }
 
   @override
   Room rebuild(void Function(RoomBuilder) updates) =>
@@ -80,19 +107,27 @@ class _$Room extends Room {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Room && name == other.name && uuid == other.uuid;
+    return other is Room &&
+        name == other.name &&
+        uuid == other.uuid &&
+        round == other.round &&
+        voterList == other.voterList;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, name.hashCode), uuid.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, name.hashCode), uuid.hashCode), round.hashCode),
+        voterList.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Room')
           ..add('name', name)
-          ..add('uuid', uuid))
+          ..add('uuid', uuid)
+          ..add('round', round)
+          ..add('voterList', voterList))
         .toString();
   }
 }
@@ -108,12 +143,23 @@ class RoomBuilder implements Builder<Room, RoomBuilder> {
   String get uuid => _$this._uuid;
   set uuid(String uuid) => _$this._uuid = uuid;
 
+  RoundBuilder _round;
+  RoundBuilder get round => _$this._round ??= new RoundBuilder();
+  set round(RoundBuilder round) => _$this._round = round;
+
+  ListBuilder<Voter> _voterList;
+  ListBuilder<Voter> get voterList =>
+      _$this._voterList ??= new ListBuilder<Voter>();
+  set voterList(ListBuilder<Voter> voterList) => _$this._voterList = voterList;
+
   RoomBuilder();
 
   RoomBuilder get _$this {
     if (_$v != null) {
       _name = _$v.name;
       _uuid = _$v.uuid;
+      _round = _$v.round?.toBuilder();
+      _voterList = _$v.voterList?.toBuilder();
       _$v = null;
     }
     return this;
@@ -134,7 +180,27 @@ class RoomBuilder implements Builder<Room, RoomBuilder> {
 
   @override
   _$Room build() {
-    final _$result = _$v ?? new _$Room._(name: name, uuid: uuid);
+    _$Room _$result;
+    try {
+      _$result = _$v ??
+          new _$Room._(
+              name: name,
+              uuid: uuid,
+              round: round.build(),
+              voterList: _voterList?.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'round';
+        round.build();
+        _$failedField = 'voterList';
+        _voterList?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Room', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
