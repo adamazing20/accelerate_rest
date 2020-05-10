@@ -10,11 +10,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Event.serializer)
       ..add(EventType.serializer)
       ..add(Room.serializer)
+      ..add(Rooms.serializer)
       ..add(Round.serializer)
       ..add(RoundSubType.serializer)
       ..add(RoundType.serializer)
       ..add(Vote.serializer)
       ..add(Voter.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Room)]),
+          () => new ListBuilder<Room>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Voter)]),
           () => new ListBuilder<Voter>()))
