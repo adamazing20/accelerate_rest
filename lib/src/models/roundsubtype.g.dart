@@ -7,14 +7,20 @@ part of roundsubtype;
 // **************************************************************************
 
 const RoundSubType _$discussion = const RoundSubType._('Discussion');
+const RoundSubType _$finalDiscussion = const RoundSubType._('FinalDiscussion');
 const RoundSubType _$vote = const RoundSubType._('Vote');
+const RoundSubType _$finalVote = const RoundSubType._('FinalVote');
 
 RoundSubType _$valueOf(String name) {
   switch (name) {
     case 'Discussion':
       return _$discussion;
+    case 'FinalDiscussion':
+      return _$finalDiscussion;
     case 'Vote':
       return _$vote;
+    case 'FinalVote':
+      return _$finalVote;
     default:
       throw new ArgumentError(name);
   }
@@ -23,7 +29,9 @@ RoundSubType _$valueOf(String name) {
 final BuiltSet<RoundSubType> _$values =
     new BuiltSet<RoundSubType>(const <RoundSubType>[
   _$discussion,
+  _$finalDiscussion,
   _$vote,
+  _$finalVote,
 ]);
 
 Serializer<RoundSubType> _$roundSubTypeSerializer =

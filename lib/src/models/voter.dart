@@ -1,7 +1,6 @@
 library voter;
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:accelerate_rest/src/models/serializers.dart';
 import 'package:accelerate_rest/src/models/vote.dart';
