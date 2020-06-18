@@ -15,7 +15,9 @@ class RoundSubType extends EnumClass {
   static Serializer<RoundSubType> get serializer => _$roundSubTypeSerializer;
 
   static const RoundSubType Discussion = _$discussion;
+  static const RoundSubType FinalDiscussion = _$finalDiscussion;
   static const RoundSubType Vote = _$vote;
+  static const RoundSubType FinalVote = _$finalVote;
 
   const RoundSubType._(String name) : super(name);
 
